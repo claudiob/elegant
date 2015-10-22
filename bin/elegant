@@ -1,0 +1,99 @@
+#!/usr/bin/env ruby
+
+begin
+  require 'elegant'
+rescue LoadError
+  require 'rubygems'
+  require 'elegant'
+end
+
+class Section
+  attr_accessor :title, :page, :alignment
+  def initialize(title:, page:, alignment:)
+    @title, @page, @alignment = title, page, alignment
+  end
+
+  attr_accessor :document
+  include Prawn::View
+  def render_to(pdf)
+    @document = pdf
+    render
+  end
+
+  def render
+    header
+
+    bounding_box [0, cursor], width: bounds.width, height: 170 do
+      stroke_bounds
+    end
+
+    footer
+  end
+
+private
+
+  def header
+    if alignment == :top and page > 1
+      start_new_page
+    end
+
+    move_down 10
+    formatted_text_box [{text: title.upcase, font: sans_serif, styles: [:bold], valign: :center, color: '556270', size: 14}], height: 15, at: [0, cursor]
+    move_down 30 # 15 of the float box, and 15 real
+  end
+
+  def footer
+    unless alignment == :bottom
+      document.move_down 25
+      document.stroke_horizontal_rule
+    end
+  end
+
+  def sans_serif
+    'Sans Serif' if document.font_families['Sans Serif']
+  end
+end
+
+sections = [
+  Section.new(title: 'Lifetime Metrics', page: 1, alignment: :top),
+  Section.new(title: 'Monetization', page: 1, alignment: :middle),
+  Section.new(title: 'Month over month view tracking', page: 1, alignment: :bottom),
+  Section.new(title: 'Lifetime Metrics', page: 2, alignment: :top),
+  Section.new(title: 'Month over month view tracking', page: 2, alignment: :middle),
+]
+
+def font_files_for(family)
+  {normal: ttf("#{family}-Regular"), bold: ttf("#{family}-Bold")}
+end
+
+def ttf(basename)
+  asset "fonts/#{basename}.ttf"
+end
+
+def png(basename)
+  asset "images/#{basename}.png"
+end
+
+def asset(path)
+  File.expand_path "../../tmp/#{path}", __FILE__
+end
+
+fonts = {}.tap do |families|
+  families['Helvetica']    = font_files_for 'HelveticaWorld'
+  families['Fallback']     = font_files_for 'ArialUnicode'
+  families['Sans Serif']   = font_files_for 'ProximaNova'
+end
+
+company_logo = png('logo')
+company_name = 'Fullscreen'
+title = 'March 2015'
+thumbnail = png('thumbnail')
+footer = "Report for channelpl.us (2015/02/12 – 2015/10/12)"
+
+filename = 'elegant.pdf'
+
+Elegant::Document.new(fonts: fonts, title: title, company_logo: company_logo, thumbnail: thumbnail, footer: footer, company_name: company_name) do |pdf|
+  sections.each{|section| section.render_to pdf}
+end.render_file filename
+
+`open #{filename}`
