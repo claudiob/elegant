@@ -25,7 +25,7 @@ module Elegant
       text = {text: text.upcase, font: 'Sans Serif', overflow: :shrink_to_fit,
         styles: [:bold], valign: :center, color: '556270', size: 14}
       options = {inline_format: true, at: [0, cursor], height: 15,
-        width: bounds.width - (margin = 7) - (@logo_width || 0)}
+        width: bounds.width - (margin = 7) - logo_width}
       formatted_text_box [text], options
       move_down 30
     end
@@ -35,6 +35,11 @@ module Elegant
     # Defines the total height occupied by the header
     def header_height
       50
+    end
+
+    # Defines the total width occupied by the logo image (top-right corner)
+    def logo_width
+      @logo_width ||= 0
     end
 
     # Sets the layout of the page and the PDF metadata.
@@ -115,18 +120,24 @@ module Elegant
     # the document.
     def render_heading(document, text)
       return unless text
-      left = 25
-      width = (@logo_width || 0) + 2 * document.line_width + (margin = 5)
-      options = {valign: :center, align: :right, overflow: :shrink_to_fit}
-      options[:width] = document.bounds.width - width - left
-      options[:height] = header_height / 2.0
-      options[:size] = 17
-      options[:at] = [left, document.bounds.top + options[:height]]
-
       document.transparent(0.25) do
         document.font('Sans Serif', style: :bold) do
-          document.text_box text, options
+          document.text_box text, heading_options(document)
         end
+      end
+    end
+    
+    def heading_options(document)
+      left = 25
+      width = logo_width + 2 * document.line_width + (margin = 5)
+      {}.tap do |options|
+        options[:valign] = :center
+        options[:align] = :right
+        options[:overflow] = :shrink_to_fit
+        options[:width] = document.bounds.width - width - left
+        options[:height] = header_height / 2.0
+        options[:size] = 17
+        options[:at] = [left, document.bounds.top + options[:height]]
       end
     end
 
