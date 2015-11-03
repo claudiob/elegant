@@ -28,23 +28,22 @@ module Elegant
     attr_accessor :fonts
 
     def initialize
-      self.author = 'Elegant'
-      self.creator = 'Elegant'
-      self.producer = 'Elegant'
-      self.watermark = File.expand_path '../images/watermark.png', __FILE__
-      self.fonts = {
-        sans_serif: font_for('DejaVuSans'), 
-        fallback: font_for('DejaVuSans')
-      }
+      @author = 'Elegant'
+      @creator = 'Elegant'
+      @producer = 'Elegant'
+      @watermark = asset 'images/default_watermark.png'
+      @fonts = {'Sans Serif' => default_font, 'Fallback' => default_font}
     end
 
   private
 
-    def font_for(family)
-      {
-        normal: File.expand_path("../fonts/#{family}.ttf", __FILE__),
-        bold: File.expand_path("../fonts/#{family}-Bold.ttf", __FILE__),
-      }
+    def default_font
+      type = 'DejaVuSans'
+      {normal: asset("fonts/#{type}.ttf"), bold: asset("fonts/#{type}Bold.ttf")}
+    end
+
+    def asset(file)
+      File.expand_path "../#{file}", __FILE__
     end
   end
 end

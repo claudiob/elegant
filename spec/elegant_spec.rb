@@ -9,25 +9,22 @@ describe 'Elegant::Document' do
     # pdf.render_file 'example-prawn.pdf'
   end
 
-  specify 'includes all the default methods of Prawn::Document' do
-    pdf = Elegant::Document.new
-    pdf.move_down 30
-    pdf.text 'Hello, world!'
-    expect(strings_of pdf.render).not_to be_empty
-    # pdf.render_file 'example-elegant.pdf'
-  end
+  specify 'accepts some options of Prawn::Document and extra ones' do
+    Elegant.configure{|config| config.producer = 'Test Suite'}    
+    
+    pdf = Elegant::Document.new header: {
+      text: 'A report', # text and logo in the top-right corner
+      logo: {width: 40, height: 30, url: 'http://lorempixel.com/400/300'},
+    }, footer: {
+      text: 'A link', # text and link in the bottom-center of the page
+      url: 'http://www.example.com',
+    }, page_size: 'B5', # will be overwritten to LETTER
+    info: {Author: 'RSpec'} # will be merged with metadata configuration
 
-  specify 'adds more options and methods' do
-    Elegant.configure do |config|
-      config.author = 'Elegant'
-    end
-    header = {text: 'A report', logo: {url: 'http://lorempixel.com/500/500'}}
-    footer = {text: 'A link', url: 'http://github.com/Fullscreen/elegant'}
-    pdf = Elegant::Document.new header: header, footer: footer
-    pdf.title 'Welcome'
+    pdf.title 'Welcome ' * 10
     pdf.text 'Hello, world!'
     expect(strings_of pdf.render).not_to be_empty
-    # pdf.render_file 'example-options.pdf'
+    pdf.render_file 'example-elegant.pdf'
   end
 end
 
