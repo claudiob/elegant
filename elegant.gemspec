@@ -13,7 +13,7 @@ Gem::Specification.new do |spec|
   spec.homepage      = 'https://github.com/Fullscreen/elegant'
   spec.license       = 'MIT'
 
-  spec.required_ruby_version = '>= 2.0'
+  spec.required_ruby_version = '>= 2.1' # 2.0 does not have Array#to_h
 
   spec.files         = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
   spec.bindir        = 'exe'

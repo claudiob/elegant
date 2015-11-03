@@ -51,7 +51,7 @@ end
 How to install
 ==============
 
-Elegant requires **Ruby 2.0 or higher**.
+Elegant requires **Ruby 2.1 or higher**.
 
 To include in your project, add `gem 'elegant', ~> '1.0'` to the `Gemfile` file of your Ruby project.
 
