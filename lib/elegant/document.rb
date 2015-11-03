@@ -1,14 +1,7 @@
-require 'active_support'
-require 'active_support/core_ext/hash/except' # for Hash#except
-# require 'active_support/core_ext/string/inflections' # for titleize/camelize
-# require 'active_support/core_ext/hash/keys' # for transform_keys!
-# require 'open-uri'
-
 require 'elegant/config'
 require 'elegant/footer'
 require 'elegant/header'
 require 'elegant/typography'
-
 
 module Elegant
   # A wrapper around Prawn::Document that enforces an elegant layout, setting
@@ -27,10 +20,11 @@ module Elegant
     #   (to make that text a link to a URL).
     # @see http://www.rubydoc.info/gems/prawn/Prawn/Document
     def initialize(options = {}, &block)
-      @header = Header.new self, options.fetch(:header, {})
-      @footer = Footer.new self, options.fetch(:footer, {})
+      options = options.dup
+      @header = Header.new self, options.delete(:header) {{}}
+      @footer = Footer.new self, options.delete(:footer) {{}}
 
-      super(with_elegant options.except(:header, :footer)) do
+      super(with_elegant options) do
         Typography.new(self).set_fonts
         @header.render
 

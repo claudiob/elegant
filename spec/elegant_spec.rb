@@ -6,7 +6,6 @@ describe 'Elegant::Document' do
     pdf.move_down 30
     pdf.text 'Hello, world!'
     expect(strings_of pdf.render).not_to be_empty
-    # pdf.render_file 'example-prawn.pdf'
   end
 
   specify 'accepts a block with or without an argument' do
@@ -26,10 +25,10 @@ describe 'Elegant::Document' do
     }, page_size: 'B5', # will be overwritten to LETTER
     info: {Author: 'RSpec'} # will be merged with metadata configuration
 
-    pdf.title 'Welcome ' * 10
+    pdf.title 'Welcome '
     pdf.text 'Hello, world!'
     expect(strings_of pdf.render).not_to be_empty
-    pdf.render_file 'example-elegant.pdf'
+    # pdf.render_file 'example-elegant.pdf'
   end
 end
 
