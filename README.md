@@ -36,9 +36,9 @@ Elegant::Document.new do
 end
 
 # with Elegant and extra options
-Elegant::Document.new do
-  header = {text: 'A report', logo: {url: 'http://lorempixel.com/500/500'}}
-  footer = {text: 'A link', url: 'http://github.com/Fullscreen/elegant'}
+header = {text: 'A report', logo: {url: 'http://lorempixel.com/500/500'}}
+footer = {text: 'A link', url: 'http://www.example.com'}
+Elegant::Document.new(header: header, footer: footer) do
   title 'Welcome'
   text 'Hello, world!'
 end
