@@ -32,15 +32,16 @@ module Elegant
       @creator = 'Elegant'
       @producer = 'Elegant'
       @watermark = asset 'images/default_watermark.png'
-      @fonts = {sans_serif: font('DejaVuSans'), fallback: font('DejaVuSans')}
+      @fonts = {'Sans Serif' => default_font, 'Fallback' => default_font}
     end
 
   private
 
-    def font(type)
+    def default_font
+      type = 'DejaVuSans'
       {normal: asset("fonts/#{type}.ttf"), bold: asset("fonts/#{type}Bold.ttf")}
     end
-    
+
     def asset(file)
       File.expand_path "../#{file}", __FILE__
     end
