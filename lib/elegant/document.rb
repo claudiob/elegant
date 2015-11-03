@@ -33,7 +33,11 @@ module Elegant
       super(with_elegant options.except(:header, :footer)) do
         Typography.new(self).set_fonts
         @header.render
-        yield block if block_given?
+
+        if block
+          block.arity < 1 ? instance_eval(&block) : block[self]
+        end
+
         @footer.render
       end
     end
@@ -48,12 +52,6 @@ module Elegant
       options = {width: width, height: 15, at: [0, cursor]}
       formatted_text_box [title], options
 
-
-      # text = {text: text.upcase, font: 'Sans Serif', overflow: :shrink_to_fit,
-      #   styles: [:bold], valign: :center, color: '556270', size: 14}
-      # options = {inline_format: true, at: [0, cursor], height: 15,
-      #   width: bounds.width - (margin = 7) - logo_width}
-      # formatted_text_box [text], options
       move_down 30
     end
 

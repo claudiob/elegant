@@ -9,9 +9,14 @@ describe 'Elegant::Document' do
     # pdf.render_file 'example-prawn.pdf'
   end
 
+  specify 'accepts a block with or without an argument' do
+    Elegant::Document.new { text 'Hello, world!' }
+    Elegant::Document.new {|pdf| pdf.text 'Hello, world!'}
+  end
+
   specify 'accepts some options of Prawn::Document and extra ones' do
-    Elegant.configure{|config| config.producer = 'Test Suite'}    
-    
+    Elegant.configure{|config| config.producer = 'Test Suite'}
+
     pdf = Elegant::Document.new header: {
       text: 'A report', # text and logo in the top-right corner
       logo: {width: 40, height: 30, url: 'http://lorempixel.com/400/300'},
