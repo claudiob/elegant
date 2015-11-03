@@ -9,6 +9,8 @@ module Elegant
   # nice dimensions and margins so that each page can fit up to three sections
   # of content properly aligned along the vertical axis.
   class Document < ::Prawn::Document
+    HEADER_HEIGHT =  50 # total height occupied by the header
+
     # Initializes a Document. Some options are fixed (e.g. the size is 612x792),
     # others can be customized through +options+.
     def initialize(options = {})
@@ -32,11 +34,6 @@ module Elegant
 
   private
 
-    # Defines the total height occupied by the header
-    def header_height
-      50
-    end
-
     # Defines the total width occupied by the logo image (top-right corner)
     def logo_width
       @logo_width ||= 0
@@ -47,7 +44,7 @@ module Elegant
       options[:page_size] = 'LETTER'
       options[:page_layout] = :portrait
       options[:print_scaling] = :none
-      options[:top_margin] = (default = 36) + header_height / 2
+      options[:top_margin] = (default = 36) + HEADER_HEIGHT / 2
       options[:info] ||= {}
       options[:info].merge!(default_metadata).transform_keys! do |key|
         key.to_s.camelize.to_sym
@@ -86,59 +83,58 @@ module Elegant
     # must be provided via configuration.
     def render_watermark
       image = Elegant.configuration.watermark
-      height = (header_height * 0.25).ceil
-      y = bounds.top + (header_height * 0.375).floor
+      height = (HEADER_HEIGHT * 0.25).ceil
+      y = bounds.top + (HEADER_HEIGHT * 0.375).floor
       image image, at: [0, y], height: height.ceil
     end
 
     # Renders an image in the top-right corner of each page. The image must be
     # provided when initializing the document.
-    def render_logo(logo)
-      return unless logo
-      url = logo[:url]
-      @logo_width = w = logo.fetch :width, 50
-      h = logo.fetch :height, 50
-
-      lw = line_width
-      left = bounds.right - w - 1.5 * lw
-      top = bounds.top + h / 2 + 0.5 * lw
-      position = [left + 0.5 * lw, bounds.top + h / 2]
-
+    def render_logo(options)
       float do
-        bounding_box [left, top], width: w + lw, height: h + lw do
-          stroke_bounds
-        end
-        begin
-          image open(logo[:url]), width: w, height: h, at: position
-        rescue OpenURI::HTTPError, OpenSSL::SSL::SSLError, SocketError
-        end
-      end
+        render_logo_frame options
+        render_logo_image options
+      end if options
+    end
+
+    # Renders a frame around the logo in the top-right corner.
+    def render_logo_frame(options = {})
+      w = options.fetch(:width, 50) + line_width
+      h = options.fetch(:height, 50) + line_width
+      left = bounds.right - w - 0.5 * line_width
+      top = bounds.top + h * 0.5
+      bounding_box([left, top], width: w, height: h) {stroke_bounds}
+    end
+
+    # Renders the actual image as the logo in the top-right corner.
+    def render_logo_image(options)
+      w = @logo_width = options.fetch :width, 50
+      h = options.fetch :height, 50
+      position = [bounds.right - w - line_width, bounds.top + h / 2]
+      image open(options[:url]), width: w, height: h, at: position
+    rescue OpenURI::HTTPError, OpenSSL::SSL::SSLError, SocketError
     end
 
     # Writes the heading for the document in the top-right corner of each page,
     # to the left of the logo. The heading must be provided when initializing
     # the document.
     def render_heading(text)
-      return unless text
       transparent(0.25) do
-        font('Sans Serif', style: :bold) do
-          text_box text, heading_options
-        end
-      end
+        font('Sans Serif', style: :bold) {text_box text, heading_options}
+      end if text
     end
 
-    def heading_options
+    def heading_options(options = {})
       left = 25
       width = logo_width + 2 * line_width + (margin = 5)
-      {}.tap do |options|
-        options[:valign] = :center
-        options[:align] = :right
-        options[:overflow] = :shrink_to_fit
-        options[:width] = bounds.width - width - left
-        options[:height] = header_height / 2.0
-        options[:size] = 17
-        options[:at] = [left, bounds.top + options[:height]]
-      end
+      options[:valign] = :center
+      options[:align] = :right
+      options[:size] = 17
+      options[:overflow] = :shrink_to_fit
+      options[:width] = bounds.width - width - left
+      options[:height] = HEADER_HEIGHT / 2.0
+      options[:at] = [left, bounds.top + options[:height]]
+      options
     end
 
     # Draws in the header of each page a horizontal line, the name of the
@@ -156,15 +152,12 @@ module Elegant
         transparent(0.25) do
           stroke_horizontal_line 0, bounds.width, at: 0
         end
-        render_author
+        settings = {at: [0, -6], width: 50, height: 10, size: 7, valign: :top}
+        text_box Elegant.configuration.author, settings
+
         text_box text, options
       end
       render_page_number
-    end
-
-    def render_author
-      options = {at: [0, -6], width: 50, height: 10, size: 7, valign: :top}
-      text_box Elegant.configuration.author, options
     end
 
     def render_page_number

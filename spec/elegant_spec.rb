@@ -27,7 +27,7 @@ describe 'Elegant::Document' do
     pdf.title 'Welcome'
     pdf.text 'Hello, world!'
     expect(strings_of pdf.render).not_to be_empty
-    # pdf.render_file 'example-options.pdf'
+    pdf.render_file 'example-options.pdf'
   end
 end
 
