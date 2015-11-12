@@ -43,7 +43,7 @@ module Elegant
 
       width = bounds.width - @header.title_padding
       title = text_options.merge text: text.upcase, color: '556270', size: 14
-      options = {width: width, height: 15, at: [0, cursor]}
+      options = {width: width, height: 30, at: [0, cursor]}
       formatted_text_box [title], options
 
       move_down 30
