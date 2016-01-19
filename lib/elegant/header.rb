@@ -16,7 +16,7 @@ module Elegant
       repeat(:all) do
         render_watermark
         stroke_horizontal_rule
-        render_logo if @logo
+        render_logo
         render_heading
       end
     end
@@ -44,7 +44,7 @@ module Elegant
     def render_logo
       float do
         render_logo_frame
-        render_logo_image
+        render_logo_image if @logo[:url]
       end if @logo
     end
 
@@ -54,7 +54,13 @@ module Elegant
       height = @logo_height + line_width
       left = bounds.right - width - 0.5 * line_width
       top = bounds.top + 0.5 * height
-      bounding_box([left, top], width: width, height: height) {stroke_bounds}
+      bounding_box([left, top], width: width, height: height) do
+        old_color = self.fill_color
+        fill_color 'FFFFFF'
+        fill_rectangle [0, height], width, height
+        fill_color old_color
+        stroke_bounds
+      end
     end
 
     # Renders the actual image as the logo in the top-right corner.

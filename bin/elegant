@@ -88,7 +88,7 @@ company_logo = png('logo')
 company_name = 'Fullscreen'
 title = 'March 2015'
 thumbnail = png('thumbnail')
-footer = "Report for channelpl.us (2015/02/12 – 2015/10/12)"
+footer = {text: "Report for channelpl.us (2015/02/12 – 2015/10/12)", url: 'https://www.channelpl.us'}
 
 filename = 'elegant.pdf'
 

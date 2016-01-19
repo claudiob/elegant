@@ -6,6 +6,10 @@ For more information about changelogs, check
 [Keep a Changelog](http://keepachangelog.com) and
 [Vandamme](http://tech-angels.github.io/vandamme).
 
+## 1.2.0 - unreleased
+
+* [ENHANCEMENT] White background below the logo
+
 ## 1.1.0 - 2015.11.12
 
 * [ENHANCEMENT] Taller title (now has room for two lines)
