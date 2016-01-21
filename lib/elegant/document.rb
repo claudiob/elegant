@@ -16,8 +16,8 @@ module Elegant
     #   (a Hash with a :url key with the location of the logo image and
     #    optional :width and :height, which default to 50x50).
     # @option options [Hash] :footer ({}) The options for the footer. Accepted
-    #   values are :text (the text in the bottom-center of the page) and :url
-    #   (to make that text a link to a URL).
+    #   values are :text (the text in the bottom-center of the page which may
+    #   include a link which will be formatted inline).
     # @see http://www.rubydoc.info/gems/prawn/Prawn/Document
     def initialize(options = {}, &block)
       options = options.dup

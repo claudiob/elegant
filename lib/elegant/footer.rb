@@ -5,7 +5,7 @@ module Elegant
 
     def initialize(document, options = {})
       @document = document
-      @text, @url = options.values_at :text, :url
+      @text = options[:text]
     end
 
     # Draws in the header of each page a horizontal line, the name of the
@@ -28,13 +28,12 @@ module Elegant
     end
 
     def render_text
-      text = @url ? "<link href='#{@url}'>#{@text}</link>" : @text
       left = 50
       options = {size: 7, align: :center, valign: :top, inline_format: true}
       options[:at] = [left, -6]
       options[:width] = bounds.width - 2 * left
       options[:height] = 10
-      text_box text, options
+      text_box @text, options
     end
 
     def render_page_number

@@ -6,9 +6,10 @@ For more information about changelogs, check
 [Keep a Changelog](http://keepachangelog.com) and
 [Vandamme](http://tech-angels.github.io/vandamme).
 
-## 1.2.0 - unreleased
+## 1.2.0 - 2016.01.21
 
 * [ENHANCEMENT] White background below the logo
+* [ENHANCEMENT] Add inline-format to footer text (allows for links)
 
 ## 1.1.0 - 2015.11.12
 
