@@ -7,13 +7,41 @@ rescue LoadError
   require 'elegant'
 end
 
+
+#####################
+
+def asset(path)
+  File.expand_path "../../tmp/#{path}", __FILE__
+end
+
+def ttf(family)
+  {normal: asset("#{family}-Regular.ttf"), bold: asset("#{family}-Bold.ttf")}
+end
+
+Elegant.configure do |config|
+  config.author    = 'Fullscreen'
+  config.creator   = 'Channel+'
+  config.producer  = 'Channel+ by Fullscreen'
+  config.watermark = asset 'images/logo.png'
+  config.fonts     = {
+    'Helvetica'  => ttf('fonts/HelveticaWorld'),
+    'Sans Serif' => ttf('fonts/ProximaNova'),
+    'Fallback'   => ttf('fonts/ArialUnicode'),
+  }
+end
+
+#####################
+
+def icon_for(name)
+  asset "images/icons/#{name}.png"
+end
+
 class Section
   attr_accessor :title, :page, :alignment
   def initialize(title:, page:, alignment:)
     @title, @page, @alignment = title, page, alignment
   end
 
-  attr_accessor :document
   include Prawn::View
   def render_to(pdf)
     @document = pdf
@@ -22,11 +50,7 @@ class Section
 
   def render
     header
-
-    bounding_box [0, cursor], width: bounds.width, height: 170 do
-      stroke_bounds
-    end
-
+    body
     footer
   end
 
@@ -38,8 +62,14 @@ private
     end
 
     move_down 10
-    formatted_text_box [{text: title.upcase, font: sans_serif, styles: [:bold], valign: :center, color: '556270', size: 14}], height: 15, at: [0, cursor]
+    formatted_text_box [header_text_box], height: 15, at: [0, cursor]
     move_down 30 # 15 of the float box, and 15 real
+  end
+
+  def body
+    bounding_box [0, cursor], width: bounds.width, height: 170 do
+      stroke_bounds
+    end
   end
 
   def footer
@@ -52,6 +82,17 @@ private
   def sans_serif
     'Sans Serif' if document.font_families['Sans Serif']
   end
+
+  def header_text_box
+    {
+      text: title.upcase,
+      font: sans_serif,
+      styles: [:bold],
+      valign: :center,
+      color: '556270',
+      size: 14
+    }
+  end
 end
 
 sections = [
@@ -62,38 +103,20 @@ sections = [
   Section.new(title: 'Month over month view tracking', page: 2, alignment: :middle),
 ]
 
-def font_files_for(family)
-  {normal: ttf("#{family}-Regular"), bold: ttf("#{family}-Bold")}
-end
+#####################
 
-def ttf(basename)
-  asset "fonts/#{basename}.ttf"
-end
-
-def png(basename)
-  asset "images/#{basename}.png"
-end
-
-def asset(path)
-  File.expand_path "../../tmp/#{path}", __FILE__
-end
-
-fonts = {}.tap do |families|
-  families['Helvetica']    = font_files_for 'HelveticaWorld'
-  families['Fallback']     = font_files_for 'ArialUnicode'
-  families['Sans Serif']   = font_files_for 'ProximaNova'
-end
-
-company_logo = png('logo')
-company_name = 'Fullscreen'
-title = 'March 2015'
-thumbnail = png('thumbnail')
-footer = {text: "Report for channelpl.us (2015/02/12 – 2015/10/12)", url: 'https://www.channelpl.us'}
+header = {text: 'March 2015', logo: {url: asset('images/thumbnail.png')}}
+footer = {text: "Report for <link href='https://www.channelpl.us'>Channel+</link> (2015/02/12 – 2015/10/12)"}
 
 filename = 'elegant.pdf'
 
-Elegant::Document.new(fonts: fonts, title: title, company_logo: company_logo, thumbnail: thumbnail, footer: footer, company_name: company_name) do |pdf|
-  sections.each{|section| section.render_to pdf}
+Elegant::Document.new(header: header, footer: footer) do |pdf|
+  sections.each do |section|
+    section.render_to pdf
+    if pdf.cursor != 15.0 && section.alignment == :bottom
+      p "CURSOR #{pdf.cursor}"
+    end
+  end
 end.render_file filename
 
 `open #{filename}`
