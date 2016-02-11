@@ -3,13 +3,13 @@ Elegant
 
 Elegant provides a nice layout for PDF reports generated in Ruby.
 
-The **source code** is available on [GitHub](https://github.com/Fullscreen/elegant) and the **documentation** on [RubyDoc](http://www.rubydoc.info/github/Fullscreen/elegant/master/Elegant/Interface).
+The **source code** is available on [GitHub](https://github.com/claudiob/elegant) and the **documentation** on [RubyDoc](http://www.rubydoc.info/github/claudiob/elegant/master/Elegant/Interface).
 
-[![Build Status](http://img.shields.io/travis/Fullscreen/elegant/master.svg)](https://travis-ci.org/Fullscreen/elegant)
-[![Coverage Status](http://img.shields.io/coveralls/Fullscreen/elegant/master.svg)](https://coveralls.io/r/Fullscreen/elegant)
-[![Dependency Status](http://img.shields.io/gemnasium/Fullscreen/elegant.svg)](https://gemnasium.com/Fullscreen/elegant)
-[![Code Climate](http://img.shields.io/codeclimate/github/Fullscreen/elegant.svg)](https://codeclimate.com/github/Fullscreen/elegant)
-[![Online docs](http://img.shields.io/badge/docs-✓-green.svg)](http://www.rubydoc.info/github/Fullscreen/elegant/master/Elegant)
+[![Build Status](http://img.shields.io/travis/claudiob/elegant/master.svg)](https://travis-ci.org/claudiob/elegant)
+[![Coverage Status](http://img.shields.io/coveralls/claudiob/elegant/master.svg)](https://coveralls.io/r/claudiob/elegant)
+[![Dependency Status](http://img.shields.io/gemnasium/claudiob/elegant.svg)](https://gemnasium.com/claudiob/elegant)
+[![Code Climate](http://img.shields.io/codeclimate/github/claudiob/elegant.svg)](https://codeclimate.com/github/claudiob/elegant)
+[![Online docs](http://img.shields.io/badge/docs-✓-green.svg)](http://www.rubydoc.info/github/claudiob/elegant/master/Elegant)
 [![Gem Version](http://img.shields.io/gem/v/elegant.svg)](http://rubygems.org/gems/elegant)
 
 Elegant is a library built on top of [Prawn](http://prawnpdf.org) to generate PDF files in Ruby.

@@ -6,6 +6,10 @@ For more information about changelogs, check
 [Keep a Changelog](http://keepachangelog.com) and
 [Vandamme](http://tech-angels.github.io/vandamme).
 
+## 1.2.1 - 2016.02.11
+
+* [ENHANCEMENT] Update homepage on rubygems.org.
+
 ## 1.2.0 - 2016.01.21
 
 * [ENHANCEMENT] White background below the logo
