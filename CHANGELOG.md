@@ -6,8 +6,9 @@ For more information about changelogs, check
 [Keep a Changelog](http://keepachangelog.com) and
 [Vandamme](http://tech-angels.github.io/vandamme).
 
-## 1.2.1 - 2016.02.11
+## 1.2.1 - 2016.02.22
 
+* [BUGFIX] Don’t try to render GIF images in PDF files since Prawn does not support them.
 * [ENHANCEMENT] Update homepage on rubygems.org.
 
 ## 1.2.0 - 2016.01.21

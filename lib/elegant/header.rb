@@ -69,7 +69,7 @@ module Elegant
       top = bounds.top + @logo_height / 2
       options = {width: @logo_width, height: @logo_height, at: [left, top]}
       image open(@logo[:url]), options
-    rescue OpenURI::HTTPError, OpenSSL::SSL::SSLError, SocketError
+    rescue OpenURI::HTTPError, OpenSSL::SSL::SSLError, SocketError, Prawn::Errors::UnsupportedImageType
     end
 
     # Writes the heading for the document in the top-right corner of each page,
