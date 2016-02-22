@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
 
   spec.summary       = %q{An elegant layout for PDF reports generated in Ruby.}
   spec.description   = %q{Elegant expands Prawn providing a new class to generate new pages with an elegant layout.}
-  spec.homepage      = 'https://github.com/Fullscreen/elegant'
+  spec.homepage      = 'https://github.com/claudiob/elegant'
   spec.license       = 'MIT'
 
   spec.required_ruby_version = '>= 2.1' # 2.0 does not have Array#to_h
