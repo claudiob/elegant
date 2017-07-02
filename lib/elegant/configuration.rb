@@ -12,16 +12,18 @@ module Elegant
   #
   # @see Elegant::Config for more examples.
   class Configuration
-    # @return [String] the Author to store in the PDF metadata
+    # @return [String] the Author to store in the PDF metadata and to display
+    #   on every page in the left section of the fotter.
     attr_accessor :author
 
-    # @return [String] the Creator to store in the PDF metadata
+    # @return [String] the Creator to store in the PDF metadata.
     attr_accessor :creator
 
-    # @return [String] the Producer to store in the PDF metadata
+    # @return [String] the Producer to store in the PDF metadata.
     attr_accessor :producer
 
-    # @return [String] the path of an image to display on every page
+    # @return [String] the path of an image to display on every page in the
+    #   left section of the header.
     attr_accessor :watermark
 
     # @return [Array<Hash<Symbol, Hash<Symbol, String>] the fonts to use.

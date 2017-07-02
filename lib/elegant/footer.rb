@@ -1,16 +1,29 @@
 require 'open-uri' # for open(http://...)
 module Elegant
+  # Provides a uniform footer for each document containing the author in the
+  # left side, an optional text in the middle, the page number in the right
+  # side and a horizontal line to separate the footer from the rest of the page.
+  #
+  # This class is typically not used directly, but by calling
+  # {Elegant::Document#initialize Elegant::Document.new} with a footer option.
+  #
+  # @example Set the footer text to 'Hello World' on each page:
+  #   Elegant::Document.new footer: {text: 'Hello World'}
   class Footer
     include Prawn::View
 
+    # Creates a new Elegant Headers.
+    # @param [Elegant::Documnet] document the document to apply to header to.
+    # @param [Hash] options the options to change the aspect of the footer.
+    # @option options [String] :text the text to display in the center of the
+    #   footer.
     def initialize(document, options = {})
       @document = document
       @text = options[:text]
     end
 
-    # Draws in the header of each page a horizontal line, the name of the
-    # author, the title and the page number. The author must be provided in
-    # the configuration, and the title when initializing the document.
+    # Displays a footer in each page of the document which includes the author,
+    # an optional text, the page number and a horizontal line.
     def render
       repeat(:all) do
         transparent(0.25) { stroke_horizontal_line 0, bounds.width, at: 0 }
