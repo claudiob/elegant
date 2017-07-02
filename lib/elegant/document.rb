@@ -9,7 +9,7 @@ module Elegant
   # of content properly aligned along the vertical axis.
   class Document < ::Prawn::Document
     # Creates a new Elegant Document.
-    # @param [Hash] options. All the options of Prawn::Document are
+    # @param [Hash] options all the options of Prawn::Document are
     # available, plus the following extra options.
     # @option options [Hash] :header ({}) The options for the header. Accepted
     #   values are :text (the title to write in the top-right corner) and :logo

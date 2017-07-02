@@ -1,8 +1,26 @@
 require 'open-uri' # for open(http://...)
 module Elegant
+  # Provides a uniform header for each document containing a small watermark
+  # image in the left side, room for an optional grey heading text in the right
+  # side, room for an optional framed logo in the right side and a horizontal
+  # line to separate the header from the rest of the page.
+  #
+  # This class is typically not used directly, but by calling
+  # {Elegant::Document#initialize Elegant::Document.new} with a header option.
+  #
+  # @example Set the heading text to 'Hello World' on each page:
+  #   Elegant::Document.new header: {text: 'Hello World'}
   class Header
     include Prawn::View
 
+    # Creates a new Elegant Headers.
+    # @param [Elegant::Documnet] document the document to apply to header to.
+    # @param [Hash] options the options to change the aspect of the header.
+    # @option options [String] :text the text to display in the right side.
+    # @option options [Hash] :logo the properties of the logo to display in the
+    #  right side. Valid properties are `:url` (a string with the
+    #  URL of the logo image), `:width` and `:height` (integer specifying the
+    #  width and height of the logo, default to 50).
     def initialize(document, options = {})
       @document = document
       @text, @logo = options.values_at :text, :logo
@@ -10,8 +28,8 @@ module Elegant
       @logo_height = @logo.fetch(:height, 50) if @logo
     end
 
-    # Draws in the header of each page a watermark logo (provided via the
-    # configuration), a horizontal line, a title and an image for the content.
+    # Displays a header in each page of the document which includes a watermark
+    # image, optional heading and logo, and a horizontal line.
     def render
       repeat(:all) do
         render_watermark

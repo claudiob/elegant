@@ -1,4 +1,6 @@
 module Elegant
+  # @private
+  # An internal class to set the fonts for the document.
   class Typography
     include Prawn::View
 
