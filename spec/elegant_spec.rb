@@ -18,7 +18,7 @@ describe 'Elegant::Document' do
 
     pdf = Elegant::Document.new header: {
       text: 'A report', # text and logo in the top-right corner
-      logo: {width: 40, height: 30, url: 'http://lorempixel.com/400/300'},
+      logo: {width: 40, height: 30, url: 'http://picsum.photos/400/300'},
     }, footer: {
       text: 'A link', # text and link in the bottom-center of the page
       url: 'http://www.example.com',
