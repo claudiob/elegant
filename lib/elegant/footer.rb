@@ -24,13 +24,11 @@ module Elegant
 
     # Displays a footer in each page of the document which includes the author,
     # an optional text, the page number and a horizontal line.
-    def render
-      repeat(:all) do
-        transparent(0.25) { stroke_horizontal_line 0, bounds.width, at: 0 }
-        render_author
-        render_text if @text
-      end
-      render_page_number
+    def render(options = {})
+      transparent(0.25) { stroke_horizontal_line 0, bounds.width, at: 0 }
+      render_author
+      render_text if @text
+      render_page_number(options[:page]) if options[:page]
     end
 
   private
@@ -49,10 +47,10 @@ module Elegant
       text_box @text, options
     end
 
-    def render_page_number
+    def render_page_number(page)
       options = {width: 50, height: 10, size: 7, align: :right, valign: :top}
       options[:at] = [bounds.width - options[:width], -6]
-      number_pages "Page <page>", options
+      text_box "Page #{page}", options
     end
   end
 end
