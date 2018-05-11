@@ -26,13 +26,16 @@ module Elegant
 
       super(with_elegant options) do
         Typography.new(self).set_fonts
-        @header.render
 
         if block
           block.arity < 1 ? instance_eval(&block) : block[self]
         end
 
-        @footer.render
+        page_count.times do |i|
+          go_to_page(i + 1)
+          @header.render
+          @footer.render(page: i + 1)
+        end
       end
     end
 

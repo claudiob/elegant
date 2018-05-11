@@ -13,7 +13,7 @@ module Elegant
   # @see Elegant::Config for more examples.
   class Configuration
     # @return [String] the Author to store in the PDF metadata and to display
-    #   on every page in the left section of the fotter.
+    #   on every page in the left section of the footer.
     attr_accessor :author
 
     # @return [String] the Creator to store in the PDF metadata.

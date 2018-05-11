@@ -31,12 +31,10 @@ module Elegant
     # Displays a header in each page of the document which includes a watermark
     # image, optional heading and logo, and a horizontal line.
     def render
-      repeat(:all) do
-        render_watermark
-        stroke_horizontal_rule
-        render_logo
-        render_heading
-      end
+      render_watermark
+      stroke_horizontal_rule
+      render_logo
+      render_heading
     end
 
     # Sets the right padding for title based on whether the page has a logo
