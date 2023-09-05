@@ -1,4 +1,4 @@
-require 'open-uri' # for open(http://...)
+require 'open-uri' # for URI.open(http://...)
 module Elegant
   # Provides a uniform footer for each document containing the author in the
   # left side, an optional text in the middle, the page number in the right

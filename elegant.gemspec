@@ -20,13 +20,14 @@ Gem::Specification.new do |spec|
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ['lib']
 
+  spec.add_dependency             'matrix', '~> 0.4.2'
   spec.add_dependency             'prawn', '~> 2.0'
 
   spec.add_development_dependency 'pdf-inspector', '~> 1.2'
   spec.add_development_dependency 'prawn-manual_builder', '~> 0.2.0'
-  spec.add_development_dependency 'rake', '~> 10.0'
+  spec.add_development_dependency "rake", "~> 12.3.3"
   spec.add_development_dependency 'rspec', '~> 3.3'
-  spec.add_development_dependency 'coveralls', '~> 0.8.10'
+  spec.add_development_dependency 'simplecov', '~> 0.21.0'
   spec.add_development_dependency 'pry-nav', '~> 0.2.4'
-  spec.add_development_dependency 'yard', '~> 0.9.9'
+  # spec.add_development_dependency 'yard', '~> 0.9.9'
 end
