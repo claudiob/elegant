@@ -1,3 +1,4 @@
+require 'matrix'
 require 'prawn'
 require 'elegant/document'
 
