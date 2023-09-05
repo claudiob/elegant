@@ -1,4 +1,4 @@
-require 'open-uri' # for open(http://...)
+require 'open-uri' # for URI.open(http://...)
 module Elegant
   # Provides a uniform header for each document containing a small watermark
   # image in the left side, room for an optional grey heading text in the right
@@ -84,7 +84,7 @@ module Elegant
       left = bounds.right - @logo_width - line_width
       top = bounds.top + @logo_height / 2
       options = {width: @logo_width, height: @logo_height, at: [left, top]}
-      image open(@logo[:url]), options
+      image URI.open(@logo[:url]), options
     rescue OpenURI::HTTPError, OpenSSL::SSL::SSLError, SocketError, Prawn::Errors::UnsupportedImageType
     end
 
